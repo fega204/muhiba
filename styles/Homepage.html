@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Special Message</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="flower-container">
+            <div class="center"></div>
+            <!-- Petals will be added by JavaScript -->
+        </div>
+        <button class="start-button" onclick="startAnimation()">Click to Reveal</button>
+        <div class="message">I'm sorry Muhiba</div>
+        <div class="hearts-container"></div>
+    </div>
+
+    <script>
+        function startAnimation() {
+            // Create and animate petals
+            const flowerContainer = document.querySelector('.flower-container');
+            const petalCount = 8;
+            
+            // Remove button
+            document.querySelector('.start-button').style.display = 'none';
+            
+            // Create petals
+            for (let i = 0; i < petalCount; i++) {
+                const petal = document.createElement('div');
+                petal.classList.add('petal');
+                petal.style.transform = `rotate(${i * (360 / petalCount)}deg) translateY(-50px)`;
+                flowerContainer.appendChild(petal);
+                
+                // Animate petals with delay
+                setTimeout(() => {
+                    petal.style.opacity = '1';
+                }, i * 250);
+            }
+            
+            // Show center of flower
+            setTimeout(() => {
+                document.querySelector('.center').style.opacity = '1';
+            }, 2000);
+            
+            // Show message
+            setTimeout(() => {
+                const message = document.querySelector('.message');
+                message.style.opacity = '1';
+                message.style.transform = 'translateY(0)';
+                
+                // Show hearts
+                createHearts();
+            }, 3000);
+        }
+        
+        function createHearts() {
+            const heartsContainer = document.querySelector('.hearts-container');
+            heartsContainer.style.opacity = '1';
+            
+            for (let i = 0; i < 20; i++) {
+                const heart = document.createElement('div');
+                heart.classList.add('heart');
+                
+                // Random position
+                const left = Math.random() * 100;
+                const top = Math.random() * 100;
+                
+                heart.style.left = `${left}%`;
+                heart.style.top = `${top}%`;
+                heart.style.opacity = '0';
+                
+                heartsContainer.appendChild(heart);
+                
+                // Animate hearts with delay
+                setTimeout(() => {
+                    heart.style.opacity = '0.7';
+                    
+                    // Fade out after some time
+                    setTimeout(() => {
+                        heart.style.opacity = '0';
+                        
+                        // Remove after animation
+                        setTimeout(() => {
+                            heart.remove();
+                        }, 500);
+                    }, 2000 + Math.random() * 2000);
+                }, 3000 + (i * 100));
+            }
+        }
+    </script>
+</body>
+</html>
